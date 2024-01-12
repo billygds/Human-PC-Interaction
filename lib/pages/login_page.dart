@@ -1,24 +1,101 @@
-
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:human_interaction_proj/components/my_button.dart';
 import 'package:human_interaction_proj/components/my_textfield.dart';
 import 'package:human_interaction_proj/components/my_checkbox.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({Key? key});
+class LoginPage extends StatefulWidget {
+  LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   // sign user in method
   void signUserIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: usernameController.text,
-      password: passwordController.text,
-      );
+    // show loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
 
+    // try sign in
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: usernameController.text,
+        password: passwordController.text,
+      );
+      // pop the loading circle
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      // pop the loading circle
+      Navigator.pop(context);
+      // WRONG EMAIL
+      if (e.code == 'user-not-found') {
+        // show error to user
+        wrongEmailMessage();
+      }
+
+      // WRONG PASSWORD
+      else if (e.code == 'wrong-password') {
+        // show error to user
+        wrongPasswordMessage();
+      }
+    }
   }
+
+  // wrong email message popup
+  Future<void> wrongEmailMessage() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              'Incorrect Email',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+
+    // Delay to allow the framework to process the dialog
+    await Future.delayed(Duration(seconds: 2));
+  }
+
+  // wrong password message popup
+  Future<void> wrongPasswordMessage() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              'Incorrect Password',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+
+    // Delay to allow the framework to process the dialog
+    await Future.delayed(Duration(seconds: 2));
+  }
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +109,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 50),
 
-                // logo
+                
                 Text(
                   'LOGIN',
                   style: TextStyle(
@@ -47,7 +124,7 @@ class LoginPage extends StatelessWidget {
                 MyTextField(
                   controller: usernameController,
                   hintText: 'Username',
-                  obscureText: false,
+                  obscureText: false, errorText: null,
                 ),
 
                 const SizedBox(height: 10),
@@ -56,7 +133,7 @@ class LoginPage extends StatelessWidget {
                 MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obscureText: true, errorText: null,
                 ),
 
                 const SizedBox(height: 30),

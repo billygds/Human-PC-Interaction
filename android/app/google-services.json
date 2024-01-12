@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "464591743500",
+    "project_id": "hpci-proj",
+    "storage_bucket": "hpci-proj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464591743500:android:7c9f3925af94237aed5c29",
+        "android_client_info": {
+          "package_name": "com.example.human_interaction_proj"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm77o9UHX270X7WjEBBSy8l8hUL532xSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
