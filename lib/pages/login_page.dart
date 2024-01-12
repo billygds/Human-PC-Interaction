@@ -7,13 +7,18 @@ import 'package:human_interaction_proj/components/my_checkbox.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key});
-
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   // sign user in method
-  void signUserIn() {}
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: usernameController.text,
+      password: passwordController.text,
+      );
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,4 +144,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-  
