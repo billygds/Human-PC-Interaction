@@ -69,30 +69,6 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
-
-    // Delay to allow the framework to process the dialog
-    await Future.delayed(Duration(seconds: 2));
-  }
-
-  // wrong password message popup
-  Future<void> wrongPasswordMessage() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.deepPurple,
-          title: Center(
-            child: Text(
-              'Incorrect Password',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        );
-      },
-    );
-
-    // Delay to allow the framework to process the dialog
-    await Future.delayed(Duration(seconds: 2));
   }
   
 
