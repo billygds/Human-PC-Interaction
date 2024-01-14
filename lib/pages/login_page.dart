@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:human_interaction_proj/components/my_button.dart';
 import 'package:human_interaction_proj/components/my_textfield.dart';
 import 'package:human_interaction_proj/components/my_checkbox.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -13,7 +12,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   // text editing controllers
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   // sign user in method
@@ -28,33 +27,25 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
-    // try sign in
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: usernameController.text,
-        password: passwordController.text,
-      );
-      // pop the loading circle
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      // pop the loading circle
-      Navigator.pop(context);
-      // WRONG EMAIL
-      if (e.code == 'user-not-found') {
-        // show error to user
-        wrongEmailMessage();
-      }
-
-      // WRONG PASSWORD
-      else if (e.code == 'wrong-password') {
-        // show error to user
-        wrongPasswordMessage();
-      }
-    }
+     // try sign in
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+   // pop the loading circle
+    Navigator.pop(context);
+  } on FirebaseAuthException catch (e) {
+    print("Firebase Authentication Error: ${e.code} - ${e.message}");
+    // pop the loading circle
+    Navigator.pop(context);
+    // show error message
+    showErrorMessage(e.code);
   }
+}
 
-  // wrong email message popup
-  Future<void> wrongEmailMessage() async {
+  // error message to user
+  void showErrorMessage (String message)  {
     showDialog(
       context: context,
       builder: (context) {
@@ -62,14 +53,15 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.deepPurple,
           title: Center(
             child: Text(
-              'Incorrect Email',
-              style: TextStyle(color: Colors.white),
+              message,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         );
       },
-    );
-  }
+    ); 
+  }  
+  
   
 
 
@@ -98,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 // username textfield
                 MyTextField(
-                  controller: usernameController,
+                  controller: emailController,
                   hintText: 'Username',
                   obscureText: false, errorText: null,
                 ),

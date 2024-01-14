@@ -10,19 +10,27 @@ class LocalButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(5),
-        margin: const EdgeInsets.symmetric(vertical: 250), // Adjust this value
+        padding: const EdgeInsets.all(70),
+        margin: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 183, 201, 226),
           borderRadius: BorderRadius.circular(40),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), // Adjust the opacity as needed
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 6), // changes the direction of shadow
+            ),
+          ],
         ),
         child: const Center(
           child: Text(
-            "Local",
+            "LOCAL",
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 30,
             ),
           ),
         ),
